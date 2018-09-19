@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: black;
+}
+#live-edits, #video {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+</style>
+</head>
+<script>
+var videoTime = 30; // in seconds
+var editsTime = 30; // in seconds
+
+function startEdits() {
+    console.log("starting live edits");
+
+    var frame = document.getElementById('live-edits');
+    //frame.src = "https://osmlab.github.io/show-me-the-way/";
+    frame.style.visibility='visible';
+
+    setTimeout(function() {
+        stopEdits();
+        startVideo();
+    }, editsTime*1000);
+}
+function stopEdits() {
+    console.log("stopping live edits");
+
+    var frame = document.getElementById('live-edits');
+    //frame.src = "about:blank";
+    frame.style.visibility='hidden';
+}
+function startVideo() {
+    console.log("starting video");
+
+    var video = document.getElementById('video');
+    video.currentTime = 0;
+    video.play();
+    video.style.visibility='visible';
+
+    setTimeout(function() {
+        stopVideo();
+        startEdits();
+    }, videoTime*1000);
+}
+function stopVideo() {
+    console.log("stopping video");
+
+    var video = document.getElementById('video');
+    video.currentTime = 0;
+    video.pause();
+    video.style.visibility='hidden';
+}
+window.addEventListener('load', function() {
+    console.log("loaded");
+
+    var frame = document.getElementById('live-edits');
+    frame.src = "https://osmlab.github.io/show-me-the-way/";
+
+    stopVideo();
+    startEdits();
+});
+
+</script>
+<body>
+    <iframe id="live-edits" src="about:blank"></iframe>
+    <video id="video" src="https://nerdearla-multimedia.s3.amazonaws.com/2018/timelapse-dia1-debug.mp4" loop></video>
+</body>
+</html>
